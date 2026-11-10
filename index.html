@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#121b3d">
+<meta name="description" content="하안중학교 3학년 크리스마스 수학 게임">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎄%3C/text%3E%3C/svg%3E">
 <title>하안중 크리스마스 트리 대작전</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,15 +256,110 @@ h1{margin:0;font-size:clamp(40px,9vw,66px);line-height:1.05;font-weight:400;colo
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--red);color:var(--on-accent);border:4px solid var(--line);box-shadow:4px 4px 0 var(--shadow);padding:8px 16px;font-size:19px;display:none;max-width:90vw}
 .toast.show{display:block}
 
+/* ===== 반응형 공통 ===== */
+html,body{-webkit-tap-highlight-color:transparent}
+body{touch-action:manipulation;overflow-x:hidden}
+.btn,.boxbtn,.choice,.tab,.icon-btn{min-height:44px}
+.qtext{overflow-x:auto}
+.tabbar,.tree-tip{display:none}
+.tree-frame{width:min(100%, max(240px, calc((100vh - 230px) * .8)));width:min(100%, max(240px, calc((100dvh - 230px) * .8)));margin:0 auto}
+
+/* 태블릿 */
+@media (max-width:1024px){
+  #game{padding:12px;gap:12px}
+  .qtext{font-size:21px}
+  .choice{font-size:19px}
+  .boxbtn .bl{font-size:22px}
+}
+
+/* 휴대폰: 문제/트리 탭으로 전환 */
 @media (max-width:760px){
+  body{font-size:17px}
   .kpis{grid-template-columns:repeat(2,1fr)}
   .login{grid-template-columns:1fr}
-  .board{grid-template-columns:1fr}
-  .side{order:-1}
+  #title{padding:20px 14px}
+  .school{font-size:18px}
+  .sub{font-size:17px}
+  #game{padding:8px 8px calc(84px + env(safe-area-inset-bottom,0px));gap:10px}
+  .hud{padding:6px 10px;gap:4px 12px;box-shadow:3px 3px 0 var(--shadow)}
+  .hud .name{display:none}
+  .hud .stat.placed{display:none}
+  .stat.me{margin-left:auto;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  #modeTxt{order:9;width:100%;font-size:14px}
+  #modeTxt:empty{display:none}
+  .icon-btn{min-height:36px;padding:0 8px}
+  .stat{font-size:16px}
+  .meter{width:64px}
+  .board{display:block}
+  .board>.tree-col,.board>.side{display:none}
+  #game[data-tab="quiz"] .board>.side{display:flex}
+  #game[data-tab="tree"] .board>.tree-col{display:flex}
+  .tree-frame{width:min(100%, max(220px, calc((100vh - 270px) * .8)));width:min(100%, max(220px, calc((100dvh - 270px) * .8)))}
+  .tree-tip{display:block;margin:0;background:var(--panel);border:3px solid var(--line);padding:6px 10px;font-size:17px;text-align:center}
+  .inv-wrap{padding:8px 10px}
+  #inv{flex-wrap:nowrap;overflow-x:auto;padding:6px 2px 4px;-webkit-overflow-scrolling:touch}
+  .inv-item{flex:none}
+  .santa-row img.s{width:56px}.santa-row img.r{width:46px}
+  .bubble{font-size:17px;min-height:0;padding:12px 10px 8px}
+  .card{padding:14px;box-shadow:4px 4px 0 var(--shadow)}
+  .ph{font-size:22px}
+  .boxbtn{grid-template-columns:48px 1fr;padding:8px 10px}
+  .boxbtn .gicon{width:44px;height:44px}
+  .boxbtn .prev{display:none}
+  .qtext{font-size:19px}
+  .qtable{font-size:17px}
+  .choice{font-size:18px;padding:8px 10px}
+  .ans input{font-size:20px}
+  .result h3{font-size:28px}
+  .reward-stage.legend{width:170px;height:170px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:15;gap:8px;background:var(--panel);border-top:4px solid var(--line);
+    padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px))}
+  #game:not(.active) .tabbar{display:none}
+  .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-size:20px;background:var(--panel-2);color:var(--ink);
+    border:3px solid var(--line);padding:6px}
+  .tab.on{background:var(--gold);box-shadow:inset 0 -4px 0 var(--gold-d)}
+  .tab .cnt{background:var(--red);color:var(--on-accent);font-family:'Press Start 2P',monospace;font-size:10px;padding:3px 5px;border:2px solid var(--line)}
+  .tab .cnt:empty{display:none}
+  .dialog{padding:16px 16px 24px;min-height:120px}
+  .dialog p{font-size:19px}
+  .modal{padding:16px}
+  .modal h2{font-size:30px}
+  #dash{padding:10px;gap:10px}
+  .dash-head h2{font-size:24px}
+  .dash-actions .btn.sm{flex:1 1 auto}
+  .kpi b{font-size:16px}
+}
+
+/* 작은 휴대폰: 대시보드 표를 카드로 */
+@media (max-width:600px){
+  .meter{display:none}
+  .dtable{min-width:0}
+  .dtable thead{display:none}
+  .dtable,.dtable tbody,.dtable tr,.dtable td{display:block;width:100%}
+  .dtable tr{border-bottom:4px solid var(--line);padding:6px 0}
+  .dtable td{display:flex;justify-content:space-between;align-items:center;gap:10px;border:none;padding:3px 12px;white-space:normal;text-align:right}
+  .dtable td::before{content:attr(data-l);color:var(--ink-soft);text-align:left}
+  .dtable td.empty-row{display:block;text-align:center}
+  .dtable td.empty-row::before{content:none}
+  .tbl-wrap{overflow:visible}
   .choices{grid-template-columns:1fr}
-  .tree-frame{max-width:420px;margin:0 auto;width:100%}
-  .hud .name{font-size:20px;width:100%}
-  .santa-row img.s{width:64px}.santa-row img.r{width:54px}
+}
+
+/* 가로로 눕힌 휴대폰 */
+@media (max-height:520px) and (orientation:landscape){
+  #title{align-items:flex-start}
+  .title-card{gap:8px}
+  h1{font-size:32px}
+  .santa-big{width:84px}.rudy-big{width:74px}
+  .story-stage{padding-bottom:8px}
+  .dialog{min-height:96px;padding:12px 16px 20px}
+  .dialog p{font-size:18px}
+  #game{padding-bottom:12px}
+  .tabbar{position:static}
+  .tree-frame{width:min(100%, max(200px, calc((100vh - 140px) * .8)));width:min(100%, max(200px, calc((100dvh - 140px) * .8)))}
+}
+@media (max-height:520px) and (orientation:landscape) and (min-width:761px){
+  .tabbar{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important}
@@ -309,17 +407,18 @@ h1{margin:0;font-size:clamp(40px,9vw,66px);line-height:1.05;font-weight:400;colo
   </div>
 </section>
 
-<section id="game" class="screen">
+<section id="game" class="screen" data-tab="quiz">
   <header class="hud">
     <div class="name">🎄 하안중 크리스마스 트리 대작전</div>
     <div class="stat">푼 문제 <b id="solvedTxt">0/0</b><div class="meter"><i id="meter"></i></div></div>
-    <div class="stat">단 장식 <b id="placedTxt">0</b></div>
+    <div class="stat placed">단 장식 <b id="placedTxt">0</b></div>
     <div class="stat me" id="meTxt"></div>
     <div class="stat" id="modeTxt"></div>
     <button class="icon-btn" id="soundBtn" aria-label="소리 켜기 끄기">🔊</button>
   </header>
   <div class="board">
     <div class="tree-col">
+      <p class="tree-tip" id="treeTip" aria-live="polite"></p>
       <div class="tree-frame"><canvas id="tree" class="pix" width="120" height="150" tabindex="0" aria-label="크리스마스 트리. 오너먼트를 고른 뒤 눌러서 달아요"></canvas></div>
       <div class="inv-wrap">
         <p class="inv-title">내 오너먼트 · 골라서 트리를 눌러요</p>
@@ -336,6 +435,11 @@ h1{margin:0;font-size:clamp(40px,9vw,66px);line-height:1.05;font-weight:400;colo
     </div>
   </div>
 </section>
+
+<nav class="tabbar" id="tabbar" aria-label="화면 전환">
+  <button class="tab on" data-tab="quiz">🎁 문제</button>
+  <button class="tab" data-tab="tree">🎄 트리 <span class="cnt" id="tabCnt"></span></button>
+</nav>
 
 <section id="dash" class="screen">
   <header class="dash-head">
@@ -360,7 +464,7 @@ h1{margin:0;font-size:clamp(40px,9vw,66px);line-height:1.05;font-weight:400;colo
   </div>
   <div class="dash-tools"><input id="dashSearch" placeholder="학번이나 이름으로 찾기" aria-label="학생 찾기"><span id="filterTxt"></span></div>
   <div class="tbl-wrap"><table class="dtable">
-    <thead><tr><th>학번</th><th>이름</th><th>상태</th><th>하</th><th>중</th><th>상</th><th>합계</th><th>오답</th><th>화면 이탈</th><th>이탈 시간</th><th>풀고 있는 문제</th><th>마지막 활동</th></tr></thead>
+    <thead><tr><th>학번 ▲</th><th>이름</th><th>상태</th><th>하</th><th>중</th><th>상</th><th>합계</th><th>오답</th><th>화면 이탈</th><th>이탈 시간</th><th>풀고 있는 문제</th><th>마지막 활동</th></tr></thead>
     <tbody id="dashBody"></tbody>
   </table></div>
   <h3 class="dash-h3">문항별 정답률</h3>
@@ -743,9 +847,16 @@ const $=id=>document.getElementById(id);
 const panel=$('panel');
 const WHO={santa:'산타',rudy:'루돌프'};
 
-function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id)); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id)); $('tabbar').style.visibility=id==='game'?'':'hidden'; window.scrollTo(0,0); }
+const isPhone=()=>matchMedia('(max-width:760px)').matches;
+function setTab(t){
+  $('game').dataset.tab=t;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{ beep(SFX.click); setTab(b.dataset.tab); });
 function say(t,who='santa'){
-  $('bubble').textContent=t; const w=$('bubWho'); w.textContent=WHO[who]; w.classList.toggle('rudy',who==='rudy');
+  $('bubble').textContent=t; $('treeTip').textContent=(who==='rudy'?'🦌 ':'🎅 ')+t; const w=$('bubWho'); w.textContent=WHO[who]; w.classList.toggle('rudy',who==='rudy');
 }
 function move(el,cls){ el.classList.remove('jump','shake'); void el.offsetWidth; el.classList.add(cls); }
 const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -786,7 +897,7 @@ function renderPick(){
 }
 
 function openQuestion(q){
-  S.cur=q; track.viewing(q);
+  S.cur=q; track.viewing(q); if($('game').dataset.tab!=='quiz') setTab('quiz');
   if(q.level===3) say('상 상자는 제 코보다 더 반짝이는 장식이 들어 있어요. 힘내세요!','rudy');
   else say(pick(['천천히 생각해 보렴. 산타는 기다릴 수 있단다.','이 상자 안에는 뭐가 들어 있을까?','호호, 하안중 친구라면 풀 수 있을 거야!']));
   const body = q.type==='input'
@@ -834,8 +945,8 @@ function check(ok,given=''){
     }
     $('goTree').onclick=()=>{
       renderPick();
-      say(ORN[k].top?'황금 별은 트리 꼭대기 자리란다. 트리를 눌러 보렴!':'왼쪽 트리에서 마음에 드는 자리를 눌러 달아 주렴.');
-      tree.focus();
+      say(ORN[k].top?'황금 별은 트리 꼭대기 자리란다. 트리를 눌러 보렴!':'트리에서 마음에 드는 자리를 눌러 달아 주렴.');
+      setTab('tree'); tree.focus({preventScroll:true});
     };
   }else{
     beep(SFX.no); move($('gameSanta'),'shake');
@@ -849,7 +960,7 @@ function check(ok,given=''){
 }
 
 function renderInv(){
-  const box=$('inv');
+  const box=$('inv'); $('tabCnt').textContent=S.inv.length||'';
   if(!S.inv.length){ box.innerHTML='<span class="empty">문제를 맞히면 여기에 오너먼트가 생겨요</span>'; tree.classList.remove('placing'); return; }
   box.innerHTML=S.inv.map((k,i)=>`<button class="inv-item ${i===S.sel?'sel':''} ${ORN[k].legend?'legend':''}" data-i="${i}" aria-label="${ORN[k].name}"><img class="pix" src="${ORN[k].url}" alt=""></button>`).join('');
   box.querySelectorAll('.inv-item').forEach(b=>b.onclick=()=>{ S.sel=+b.dataset.i===S.sel?-1:+b.dataset.i; beep(SFX.click); renderInv(); if(S.sel>=0) say(`${eul(ORN[S.inv[S.sel]].name)} 골랐구나. 트리를 눌러 달아 보렴!`); });
@@ -876,6 +987,7 @@ tree.addEventListener('click',e=>{
   if(ORN[k].top) say('꼭대기에 별이 반짝여요! 하안중 운동장까지 환해졌어요!','rudy');
   else if(ORN[k].legend) say('트리가 반짝반짝 빛나요! 제 코랑 누가 더 밝을까요?','rudy');
   else say(pick(['딱 좋은 자리야!','오, 센스가 있는걸?','트리가 점점 예뻐지는구나!']));
+  if(!S.inv.length && isPhone() && S.solved.size<QUESTIONS.length) setTimeout(()=>{ setTab('quiz'); say('멋져! 다음 문제 상자를 골라 보렴.'); },900);
   checkEnd();
 });
 
@@ -1014,7 +1126,7 @@ const ms2txt=ms=>{ const s=Math.round(ms/1000); return s<60? s+'초' : Math.floo
 const ago=ms=>{ if(!ms) return '-'; const s=Math.max(0,Math.round((Date.now()-ms)/1000)); return s<60? s+'초 전' : s<3600? Math.floor(s/60)+'분 전' : new Date(ms).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}); };
 function stOf(r){ if(r.status==='away') return 'away'; if(r.status==='done') return 'done'; return Date.now()-tms(r.lastSeen)>60000?'off':'on'; }
 function awayMsOf(r){ let ms=(r.away&&r.away.totalMs)||0; if(r.status==='away'&&r.awaySince) ms+=Date.now()-tms(r.awaySince); return ms; }
-const byNo=(a,b)=>String(a.no).localeCompare(String(b.no))||String(a.name).localeCompare(String(b.name));
+const byNo=(a,b)=>(parseInt(a.no,10)||0)-(parseInt(b.no,10)||0)||String(a.no).localeCompare(String(b.no))||String(a.name).localeCompare(String(b.name),'ko');
 
 function openDash(){
   show('dash'); renderDash();
@@ -1053,13 +1165,13 @@ function renderDash(){
   const list=dashRows.filter(r=>(dashFilter==='all'||stOf(r)===dashFilter)&&(!qq||String(r.no).includes(qq)||String(r.name).includes(qq))).sort(byNo);
   $('dashBody').innerHTML=list.map(r=>{
     const st=stOf(r), co=r.correct||{}, wr=r.wrong||{}, aw=r.away||{};
-    const lv=LVK.map(k=>'<td><span class="lvc"><i><span style="width:'+((co[k]||0)/CNT[k]*100)+'%"></span></i>'+(co[k]||0)+'/'+CNT[k]+'</span></td>').join('');
+    const lv=LVK.map(k=>'<td data-l="'+({L:'하',M:'중',H:'상'})[k]+'"><span class="lvc"><i><span style="width:'+((co[k]||0)/CNT[k]*100)+'%"></span></i>'+(co[k]||0)+'/'+CNT[k]+'</span></td>').join('');
     const tot=(co.L||0)+(co.M||0)+(co.H||0), wsum=(wr.L||0)+(wr.M||0)+(wr.H||0);
     const cq=r.current&&QMAP[r.current];
     const cur=st==='done'?'모두 완료':cq?LV[cq.level].name+' · '+cq.src:'-';
     const now=st==='away'&&r.awaySince?' '+ms2txt(Date.now()-tms(r.awaySince)):'';
-    return '<tr class="'+st+'"><td>'+esc(r.no)+'</td><td>'+esc(r.name)+'</td><td><span class="chip '+st+'">'+ST[st]+now+'</span></td>'+lv+
-      '<td><b>'+tot+'</b>/'+QUESTIONS.length+'</td><td>'+wsum+'회</td><td>'+(aw.count||0)+'회</td><td>'+ms2txt(awayMsOf(r))+'</td><td>'+esc(cur)+'</td><td>'+ago(tms(r.lastSeen))+'</td></tr>';
+    return '<tr class="'+st+'"><td data-l="학번">'+esc(r.no)+'</td><td data-l="이름">'+esc(r.name)+'</td><td data-l="상태"><span class="chip '+st+'">'+ST[st]+now+'</span></td>'+lv+
+      '<td data-l="합계"><span><b>'+tot+'</b>/'+QUESTIONS.length+'</span></td><td data-l="오답">'+wsum+'회</td><td data-l="화면 이탈">'+(aw.count||0)+'회</td><td data-l="이탈 시간">'+ms2txt(awayMsOf(r))+'</td><td data-l="풀고 있는 문제">'+esc(cur)+'</td><td data-l="마지막 활동">'+ago(tms(r.lastSeen))+'</td></tr>';
   }).join('') || '<tr><td colspan="12" class="empty-row">'+(dashRows.length?'조건에 맞는 학생이 없어요.':'아직 입장한 학생이 없어요. 학생이 학번과 이름을 입력하면 여기에 나타나요.')+'</td></tr>';
   $('qstats').innerHTML=QUESTIONS.map(q=>{
     let tried=0,ok=0,first=0;
@@ -1123,6 +1235,8 @@ $('skipBtn').onclick=startGame;
 $('soundBtn').onclick=()=>{ S.sound=!S.sound; $('soundBtn').textContent=S.sound?'🔊':'🔇'; };
 
 setInterval(render,90);
+
+$('tabbar').style.visibility='hidden';
 if(location.hash==='#teacher') askPassword();
 </script>
 </body>
